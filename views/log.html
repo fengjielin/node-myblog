@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="/public/img/favicon.ico">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>后台管理</h1>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>#</th>
+                <th>who</th>
+                <th>where</th>
+                <th>what</th>
+                <th>date</th>
+            </tr>
+            {{ each logList item i}}
+            <tr>
+                <td>{{i + 1}}</td>
+                <td>{{item.who}}</td>
+                <td>{{item.where}}</td>
+                <td>{{item.what}}</td>
+                <td>{{item.date.toLocaleString()}}</td>
+            </tr>
+            {{ /each }}
+        </table>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="/public/img/favicon.ico">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>后台管理</h1>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>#</th>
+                <th>title</th>
+                <th>intro</th>
+                <th>classify</th>
+                <th>theme</th>
+                <th>date</th>
+                <th>operation</th>
+            </tr>
+            {{ each articleList item i}}
+            <tr>
+                <td>{{i + 1}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.intro}}</td>
+                <td>{{item.classify}}</td>
+                <td>{{item.theme}}</td>
+                <td>{{item.date.toLocaleString()}}</td>
+                <td>
+                    <a class="btn btn-default" id="" href="javascript:void(0);" onclick="itemDelete('{{item.id}}')" ;
+                        role="button">delete</a>
+                    <a class="btn btn-default" href="/update_page?id={{item.id}}" role="button">update</a>
+                </td>
+            </tr>
+            {{ /each }}
+        </table>
+        <a class="btn btn-default" href="/uploadFiles" role="button">uploadFiles</a>
+        <a class="btn btn-default" href="/" role="button">Index</a>
+        <a class="btn btn-default" href="/logout" role="button">logout</a>
+        <a class="btn btn-default" href="/log" role="button">log</a>
+    </div>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script>
+
+        function itemDelete(id) {
+            let isDelete = confirm('确定删除？');
+            if (isDelete) {
+                $.ajax({
+                    url: '/delete',
+                    dataType: 'json',
+                    type: 'get',
+                    data: 'id=' + id,
+                    success: function (data) {
+                        window.location.href = "/admin"
+                    },
+                    error: function () {
+                        console.log('错误');
+                    }
+                })
+            }
+        }
+
+        function itemUpdate(id) {
+            $.ajax({
+                url: '/update',
+                dataType: 'json',
+                type: 'get',
+                data: 'id=' + id,
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = "update.html"
+                },
+                error: function () {
+                    console.log('错误');
+                }
+            })
+        }
+
+
+
+    </script>
+</body>
+
+</html>

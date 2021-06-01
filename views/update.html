@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="icon" href="/public/img/favicon.ico">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>修改数据</h1>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>#</th>
+                <th>title</th>
+                <th>intro</th>
+                <th>classify</th>
+                <th>theme</th>
+                <th>date</th>
+            </tr>
+            <tr>
+                <td id="id">{{article.id}}</td>
+                <td>{{article.title}}</td>
+                <td>{{article.intro}}</td>
+                <td>{{article.classify}}</td>
+                <td>{{article.theme}}</td>
+                <td>{{article.date.toLocaleString()}}</td>
+            </tr>
+        </table>
+        <form action="/update" method="GET" id="updateForm">
+            <label for="classify">classify:</label>
+            <select id="classify" name="classify">
+                <option value="JavaScript">JavaScript</option>
+                <option value="NodeJs">NodeJs</option>
+                <option value="VueJs">VueJs</option>
+                <option value="Other" selected>Other</option>
+            </select>
+            <br>
+            <label for="theme">theme:</label>
+            <select id="theme" name="theme">
+                <option value="0">我要变强</option>
+                <option value="1">生活点滴</option>
+            </select>
+            <br>
+            <label for="intro">intro:</label>
+            <br>
+            <textarea id="intro" name="intro" rows="5" cols="33" placeholder="请输入文章简介" required></textarea>
+            <br>
+            <input type="button" id="btnUpdate" value="修改" />
+        </form>
+    </div>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+
+    <script>
+        $('#btnUpdate').click(function () {
+            var article = $('#updateForm').serializeObject();
+            article.id = $('#id').text();
+            
+            $.ajax({
+                url: '/update',
+                dataType: 'json',
+                type: 'post',
+                data: article,
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = '/admin'
+                },
+                error: function () {
+                    console.log("错误");
+                }
+            })
+        })
+
+        //表单数据序列化为json数据
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        }
+    </script>
+</body>
+
+</html>

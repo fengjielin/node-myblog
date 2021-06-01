@@ -1,0 +1,740 @@
+# 从vue到前端
+
+## 什么是vue
+
+官网
+
+---
+
+前置知识
+
+完整的学习vue：html+css、 Javascript、css3、 HTML5、第三方库、网络通信、
+
+ES6+、 webpack、模块化、包管理器、css预编译器
+
+体验vue功能：html+css、 Javascript
+
+---
+
+vue是前端的一种开发框架，它主要解决前端开发中的核心痛点 一一 复杂的DOM操作
+
+---
+
+vue拥有以下特点：
+
+- 渐进式
+- 组件化
+- 响应式
+
+---
+
+vue的应用场景：
+
+- 前台的部分页面
+- 后台的全部页面
+
+---
+
+vue的版本：
+
+- 目前的正式版本是2.x
+- 3,x版本即将上线，对2x是兼容的，要完全体验到3,x的优势，还需要学习 Typescript
+
+---
+
+vue在前端的地位：
+
+前端是连接终端设备与人的技术
+
+![image-20210228100542919](images/vue/image-20210228100542919.png)
+
+vue是实现这些技术的其中一种方式
+
+---
+
+除了vue之外，还需要学习哪些前端知识？
+Typescript、 Three]S、 Webgl、 Echarts、 node]S、Egg、 Redis、 Mongodb、 Sequelize、 Express、Koa、移动端
+
+---
+
+## 学习准备
+
+1. 安装 Vscode
+   官网：https:/lcode.visualstudio.comi
+2. 安装 Vscode相应插件
+   - Auto Rename Tag: 能够自动更改结束标签
+   - Live Server: 自动搭建本地服务器
+   - Prettier- Code formatter: 代码美化
+   - Vetur: vue组件格式支持
+   - vscode-ions: 美化文件图标
+3. 加入组织
+
+---
+
+# vue初体验
+
+## 起步
+
+使用vue的两种方式：
+
+- 在页面中引vue的js文件
+- 脚手架
+  - 官方脚手架 vue-cli
+  - 其他民间脚手架，如 webpack- simple
+  - 手动搭建
+
+## 体验vue开发
+
+![image-20210228105538437](images/vue/image-20210228105538437.png)
+
+```html
+<body>
+    <div id="app">
+        <!-- 界面模版 -->
+        <!-- mustache -->
+        <h1>系统名称：{{title}}</h1>
+        <ul>
+            <li v-for="(item, i) in products">
+                名称：{{item.name}}
+                <button @click="changeStock(item, item.stock - 1)">-</button>
+                <span v-if="item.stock>0">{{item.stock}}</span>
+                <span v-else>无货</span>
+                <button @click="changeStock(item, item.stock + 1)">+</button>
+                <button @click="remove(i)">删除</button>
+            </li>
+        </ul>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        // vm：vue实例
+        var vm = new Vue({
+            el: "#app",//css选择器
+            data: {
+                //和界面相关的数据
+                title: "库存管理系统",
+                products: [
+                   { name: "iphone", stock: 10},
+                   { name: "xiaomi", stock: 20},
+                   { name: "huawei", stock: 30},
+                ]
+            },
+            methods:{
+                remove(i){
+                    this.products.splice(i, 1)
+                },
+                changeStock(product, newStock){
+                    if(newStock < 0){
+                        newStock == 0;
+                    }
+                    product.stock = newStock;
+                },
+            },
+        })
+    </script>
+</body>
+```
+
+# vue核心概念
+
+##ES6知识补充
+
+- 速写属性
+
+```js
+//语法糖
+```
+
+
+
+- 速写方法
+- 模板字符串
+
+## 注入
+
+配置对象中的部分内容会被提取到vue实例中
+
+- data
+- methods
+
+该过程称之为注入
+
+注入目的有两个：
+
+- 完成数据响应式
+
+  vue是怎么知道数据被更改了？
+  vue2.0是通过 object. defineproperty 方法完成了数据响应式，vue3.0是通过Class Proxy完成的数据响应式
+
+- 绑定this
+
+## 虚拟DOM树
+
+为了提高渲染效率，vue会把模板编译成为虚拟DOM树，然后再生成真实的DOM
+
+![image-20210301091036816](images/vue/image-20210301091036816.png)
+
+当数据更改时，将重新编译成虚拟DOM树，然后对前后两棵树进行比对，仅将差异部分反映到真实DOM,这样既可最小程度的改动真实DOM,提升页面效率
+
+![image-20210301092147157](images/vue/image-20210301092147157.png)
+
+因此，对于vue而言，提升效率重点着眼于两个方面：
+
+- 减少新的虚拟DOM的生成
+- 保证对比之后，只有必要的节点有变化
+
+vue提供了多种方式生成虚拟DOM树：
+
+1. 在挂在的元素内部直接书写，此时将使用元素的 outerHTML作为模板
+2. 在 template配置中书写
+3. 在 render配置中用函数直接创建虚拟节点树，此时，完全脱离模板，将省略编译步骤，这些步骤从上到下，优先级逐渐提升
+
+注意：虚拟节点树必须是单根的
+
+## 挂载
+
+将生成的真实DOM树，放置到某个元素位置，称之为挂载
+
+挂载的方式
+
+1. 通过e1:"css选择器”进行配置
+
+2. 通过vue实例.$mount("css选择器”)进行配置
+
+##完整流程
+
+![image-20210301093912086](images/vue/image-20210301093912086.png)
+
+# 模版语法与计算属性
+
+## 内容
+
+vue中的元素内容使用 mustache模板引掔进行解析
+
+## 指令
+
+指令会影响元素的渲染行为，指令始终以 v- 开头
+
+基础指令：
+
+- v-for: 循环渲染元素
+
+- v-html: 设置元素的 innerHTML 该指令会导致元素的模板内容失效
+
+- v-on: 注册事件
+
+  该指令由于十分常用，因此提供了简写 @
+
+  事件支持一些指令修饰符，如 prevent
+
+  事件参数会自动传递
+
+- v-bind: 绑定动态属性
+
+  该指令由于十分常用，因此提供了简写：
+
+- v-show: 控制元素可见度
+
+- v-if、v-else-if、v-else: 控制元素生成
+
+- v- model: 双向数据绑定，常用于表单元素
+
+  该指令是v-on和v-bind的复合版
+
+进阶指令：
+
+- v-slot
+- v-text
+- v-pre
+- v-cloak
+- v-once
+- 自定义指令
+
+
+
+## 特殊属性
+
+最重要的特殊属性：key
+该属性可以干预 diff 算法，在同一层级，key值相同的节点会进行比对，key值不同的节点则不会
+
+![image-20210302094523918](images/vue/image-20210302094523918.png)
+
+在循环生成的节点中，vue强烈建议给予每个节点唯一且稳定的key值
+
+![image-20210302095629298](images/vue/image-20210302095629298.png)
+
+
+
+其他特殊属性
+
+ref
+
+if
+
+slot
+
+slot-scope
+
+scope
+
+
+
+## 计算属性
+
+ ```js
+computed:{
+    //仅访问器
+    prop(){
+        return ...
+    }
+    //访问器 + 设置器
+   	fullProp:{
+        get(){
+            return ...
+        },
+        set(val){
+            ...
+        }
+    }
+}
+ ```
+
+计算属性和方法的区别：
+
+- 计算属性可以赋值，而方法不行
+- 计算属性会进行缓存，如果依赖不变，则直接使用缓存结果，不会重新计算
+- 凡是根据已有数据计算得到新数据的无参函数，都应该尽量写成计算属性，而不是方法
+
+
+
+#组件核心概念
+
+## 知识补充
+
+1. 箭头函数
+
+   - 任何可以书写匿名函数的位置均可以书写箭头函数
+
+   - 箭头函数将会绑定`this`为函数书写位置的this值
+
+2. 模块化
+
+   - 没有模块化的世界：全局变量污染、难以管理的依赖
+
+   - 常见的模块化标准： Commons、ES6 Module、AMD、CMD、UMD
+
+## 组件概念
+
+一个完整的网页是复杂的，如果将其作为一个整体来进行开发，将会遇到下面的困难
+
+- 代码淩乱臃肿
+- 不易协作
+- 难以复用
+
+推荐使用一种更加精细的控制方案一一组件化开发
+
+所谓组件化，即把一个页面中区域功能细分，每一个区域成为一个组件，每个组件包含：
+
+- 功能(JS代码)
+
+- 内容（模板代码)
+
+- 样式（CSS代码)
+
+由于没有构建工具的支撑，CSS代码暂时无法放到组件中
+
+## 组件开发
+
+## 创建组件
+
+组件是根据一个普通的配置对象创建的，所以要开发一个组件，只需要写一个配置对象即可
+
+该配置对象和vue实例的配置是几乎一样的
+
+```js
+//组件配置对象
+var myComp = {
+    data(){return{...}},
+    computed:{...},
+    methods:{...},
+    template:`...`
+}
+```
+
+值得注意的是，组件配置对象和vue实例有以下几点差异：
+
+- 无 el
+- data必须是一个函数，该函数返回的对象作为数据
+- 由于没有 el 配置，组件的虚拟DOM树必须定义在 template或 render中
+
+## 注册组件
+
+注册组件分为两种方式，一种是 全局注册，一种是 局部注册
+
+### 全局注册
+
+一旦全局注册了一个组件，整个应用中任何地方都可以使用该组件
+
+![image-20210303091206594](images/vue/image-20210303091206594.png)
+
+全局注册的方式是：
+
+```js
+//参数1：组件名称，将来在模板中使用组件时，会使用该名称
+//参数2：组件配置对象
+//该代码运行后，即可在模板中使用组件
+Vue.component('my-comp',myComp)
+```
+
+在模板中，可以使用组件了
+
+```html
+<my-comp />
+<!-- 或 -->
+<my-comp></my-comp>
+```
+
+但在一些工程化的大型项目中，很多组件都不需要全局使用。
+
+比如一个登录组件，只有在登录的相关页面中使用，如果全局注册，将导致构建工具无法优化打包
+
+因此，除非组件特别通用，否则不建议使用全局注册
+
+## 局部注册
+
+局部注册就是哪里要用到组件，就在哪里注册
+
+![image-20210303092437698](images/vue/image-20210303092437698.png)
+
+局部注册的方式是，在要使用组件的组件或实例中加入一个配置:
+
+```js
+//这是另一个要使用my-comp的组件
+var otherComp = {
+    components:{
+        //属性名为组件名称，模板中将使用该名称
+        //属性值为组件配置对象
+        "my-comp":myComp
+    },
+    template:`<div><my-comp></my-comp></div>`
+}
+```
+
+## 应用组件
+
+在模板中使用组件特别简单，把组件名当作HTML元素名使用即可。
+
+但要注意以下几点：
+
+1. 组件必须有结束
+
+组件可以自结束，也可以用结束标记结束，但必须要有结束
+
+下面的组件使用是错误的：
+
+```html
+<my-comp>
+```
+
+2. 组件的命名
+
+无论你使用哪种方式注册组件，组件的命名需要遵循规范。
+
+组件可以使用 kebab-case短横线命名法，也可以使用 Pascalcase大驼峰命名法
+
+下面两种命名均是可以的
+
+```js
+var oterComp = {
+    components:{
+        "my-comp":myComp,//方式1
+        MyComp:myComp //方式2
+    }
+}
+```
+
+实际上，使用小驼峰命名法 camelcase也是可以识别的，只不过不符合官方要求的规范
+
+使用 Pascalcase方式命名还有一个额外的好处，即可以在模板中使用两种组件名
+
+```js
+var oterComp = {
+    components:{
+        MyComp:myComp //方式2
+    }
+}
+```
+
+模板中：
+
+```html
+<!-- 可用 -->
+<my-comp />
+<MyComp />
+```
+
+因此，在使用组件时，为了方便，往往使用以下代码：
+
+```js
+var MyComp = {
+    //组件配置
+}
+var OtherComp = {
+	components:{
+        MyComp // ES6速写属性
+    }
+}
+```
+
+注意， Pascalcase命名不可以直接在htm中使用，但可以在 template配置中使用
+想想为什么？
+
+## 组件树
+
+一个组件创建好后，往往会在各种地方使用它。它可能多次出现在Vue实例中，也可能出现在其他组件中。
+于是就形成了一个组件树
+
+![image-20210303093453431](images/vue/image-20210303093453431.png)
+
+## 向组件传递数据
+
+大部分组件要完成自身的功能，都需要一些额外的信息
+
+比如一个头像组件，需要告诉它头像的地址，这就需要在使用组件时向组件传递数据
+
+传递数据的方式有很多种，最常见的一种是使用组件属性 component props
+
+首先在组件中申明可以接收哪些属性
+
+```js
+var MyComp = {
+    props:["p1","p2","p3"],
+    //和vue实例一样，使用组件时也会创建组件的实例
+	//而组件的属性会被提取到组件实例中，因此可以在模板中使用
+    template:`<div>{{p1},{p2},{p3}}</div>`
+}
+```
+
+在使用组件时，向其传递属性：
+
+```js
+var OtherComp = {
+    components:{
+        MyComp
+    },
+    data(){
+        return{
+            a:1
+        }
+    },
+    template:`<my-comp :p1="a" :p2="2" p3="3" />`
+}
+```
+
+注意：在组件中，属性是只读的，绝不可以更改，这叫做单向数据流
+
+![image-20210303094513531](images/vue/image-20210303094513531.png)
+
+## 工程结构
+
+![image-20210303103415245](images/vue/image-20210303103415245.png)
+
+![image-20210303103722757](images/vue/image-20210303103722757.png)
+
+```html
+<!--vue.js-->
+<body>
+    <div id="app"></div>
+    <script src="./lib/vue.js"></script>
+    <script src="./src/main.js" type="module"></script>
+</body>
+```
+
+```js
+//mian.js
+import App from "./App.js"
+
+new Vue({
+    components:{
+        App
+    },
+    // template:`<App />`,
+    render: (h) => h(App),
+}).$mount("#app");
+```
+
+```js
+//App.js
+import Products from "./components/Products.js"
+
+var template = `<div>
+    <h1>库存管理系统</h1>
+    <Products />
+</div>`
+// 根组件
+export default {
+    components: {
+        Products,
+    },
+    template,
+};
+```
+
+```js
+//Products.js
+//商品列表组件
+var template = `<ul>
+<li v-for="(item, i) in products">
+    名称：{{item.name}}
+    <button @click="changeStock(item, item.stock - 1)">-</button>
+    <span v-if="item.stock>0">{{item.stock}}</span>
+    <span v-else>无货</span>
+    <button @click="changeStock(item, item.stock + 1)">+</button>
+    <button @click="remove(i)">删除</button>
+</li>
+</ul>`;
+
+export default{
+    template,
+    data(){
+        return{
+            products:[
+                {id:1,name:"iphone",stock:10},
+                {id:2,name:"xiaomin",stock:30},
+                {id:3,name:"huawei",stock:20},
+            ]
+        }
+    },
+    methods:{
+        remove(i){
+            this.products.splice(i, 1)
+        },
+        changeStock(product, newStock){
+            if(newStock < 0){
+                newStock == 0;
+            }
+            product.stock = newStock;
+        }
+    }
+}
+```
+
+# 使用脚手架搭建工程
+
+## vue-cli 的安装
+
+vue-cli是一个脚手架工具，它集成了诸多前端技オ,包括但不仅限于：
+
+- webpack
+- babel
+- eslint
+- http-proxy-middleware
+- typescript
+- css pre-prosessor
+- css module
+
+- ...
+
+这些工具，他们大部分都要依赖两个东西:
+
+- node环境：很多工具的运行环境
+- npm:包管理器，用于下載各种第三方库
+
+目前，npm已和node集成，当安装node后，会自动安装npm
+
+## 安装node
+
+## 验证安装
+
+打开终端，查看node和npm版本，验证是否安装成功：
+
+```sh
+node -v
+npm -v
+```
+
+如果安装之前打开了终端，需要在安装后关闭终端，重新打开
+
+## 配置源地址
+
+默认情况下，npm安装包时会从国外的地址下载，速度很慢，容易导致安装失败，因此需要先配置npm的源地址
+
+使用下面的命令更改npm的源地址为淘宝源
+
+```shell
+npm config set registry http://registry.npm.taobao.org/
+```
+
+更改好了之后，查看源地址是否正确的被更改
+
+```shell
+npm config get registry
+```
+
+## 安装vue-cli
+
+使用下面的命令安装vue-cli工具
+
+```shell
+npm install -g @vue/cli
+```
+
+安装好之后，检查vue-clli是否安装成功
+
+```shell
+vue --version
+```
+
+## vue-cli的使用
+
+##在终端中进入某个目录
+
+选择一个目录，该目录将放置你的工程文件夹
+
+在终端中进入该目录
+
+##搭建工程
+
+使用vue-cli提供的命令搭建工程
+
+```shell
+vue create 工程名
+```
+
+注意：工程名只能出现英文、数字和短横线
+
+##理解工程结构
+
+![image-20210303113601136](images/vue/image-20210303113601136.png)
+
+
+
+npm run serve
+
+npm install
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

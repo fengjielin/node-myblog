@@ -1,0 +1,2370 @@
+2021-03-12  --- 2021-03-31
+
+# Node.js
+
+[toc]
+
+
+
+## 1. Node.js介绍
+
+### 1.1 为什么要学习 Node.js
+
+学习 Nodejs的目的就是帮助大家打开服务端这个黑盒子
+
+### 1.2 Nodejs是什么
+
+- Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
+  - Node.js不是一门语言
+  - Node, js.不是库、不是框架
+  - Node. js是一个 Javascript运行时环境
+  - 简单点来讲就是 Node.js可以解析和执行 Javascript代码
+  - 以前只有浏览器可以可以解析执行 Javascript代码
+  - 也就是说现在的 Javascript可以完全脱离浏览器来运行，一切都归功于： Node js
+- 浏览器中的 JavaScript
+  - EcmaScript
+    - 基本的语法
+    - if
+    - var
+    - function
+    - Object
+    - Array
+  - BOM
+  - DOM
+- Node.js中的 JavaScript
+  - 没有BOM、DOM
+  - EcmaScript
+  - 在Node这个 JavaScript执行环境中为 JavaScript提供了一些服务器級别的操作API
+    - 例如文件读写
+    - 网络服务的构建
+    - 网络通信
+    - http服务器
+    - 等处理。。。
+- 构建与 Chrome的V8引擎之上
+  - 代码只是具有特定格式的字符串而已
+  - 引擎可以认识它，引擎可以帮你去解析和执行
+  - Google Chrome的 V8引擎  是目前公认的解析执行 Javascript代码最快的
+  - Node.js的作者把 Google Chrome中的  V8引擎 移植了出来，开发了一个独立的 Javascript运行时环境
+
+- Node. js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+  - event- driven事件驱动
+  - non- blocking I/ O model非阻塞IO模型（异步）
+  - lightweight and efficient.轻量和高效
+  - 随课程慢慢的学习你会明白什么是事件驱动、非阻塞O機型
+- Nodejs'package ecosystem, npm, is the largest ecosystem of open source libraries in the world
+  - npm是世界上最大的开源库生态系统
+  - 绝大多数 javascript相关的包都存放在了npm上，这样做的目的是为了让开发人员更方便的去下载使用我
+  - `npm install jquery`
+
+### 1.3  Node.js能做什么
+
+- Web  服务器后台
+- 命令行工具
+  - npm(node)
+  - git(c 语言)
+  - hexo(node)
+  - 。。。
+- 对于前端开发工程师来讲，接触node最多的是它的命令行工具
+  - 自己写的很少，主要是使用别人第三方的
+  - webpack
+  - gulp
+  - npm
+
+### 1.4 预备知识
+
+- HTML
+- CSS
+- JavaScript
+- 简单的命令行操作
+  - cd
+  - dir
+  - ls
+  - mkdir
+  - rm
+- 具有服务端开发经验更佳
+
+###1.5 一些资源
+
+- 《深入浅出 Node is》
+  - 朴灵
+  - 偏理论，几乎没有任何实战行内容
+  - 理解原理底层有帮助
+  - 结合课程的学习去看
+
+- 《Node.js权威指南》
+  - API讲解
+  - 也没有业务，没有实战
+
+- Javascript标准参考教程( alpha): https://javascript.ruanyifeng.com/
+
+- Node入门: http://www.nodebeginner.org/index-zh-cn.htm
+
+- 官方API文档：https://nodejs.org/dist/latest-v6x/docs/api
+- 中文文档(版本比较旧，凑合看)：http://www.nodeclass,com/api/node.html
+- CNODE社区 http://cnodejs.org
+- CNODE-新手入门:http://cnodejs.org/getsart
+
+### 1.6.这门课程你能学到啥？
+
+- B/S 编程模型
+  - Browser- Server
+  - back-end
+  - 任何服务端技术这种BS编程模型都是一样，和语言无关
+  - Node只是作为我们学习BS编程模型的一个工具而己
+- 模块化编程
+  - RequireJS
+  - SeaJS
+  - `@import('文件路径')`
+  - 在Node中可以像 `@import()`一样来引用加载 Javascript脚本文件
+- Node常用API
+- 异步编程
+  - 回调函数
+  - Promise
+  - async
+  - generator
+- Express Web开发框架
+- Ecmascript 6
+  - 在课程中穿插讲解
+  - 它只是一个新的语法而已
+- ...
+- 学习Nod不仅会帮助大家打开服务端黑盒子，同时会帮助你学习以后的前端高级内容
+  - Vue.js
+  - React
+  - angular
+
+## 2. 起步
+
+### 2.1 安装Node 环境
+
+- 查看当前node环境的版本号 ： `node --version`
+- 环境变量
+
+### 2.2 hello world
+
+1. 创建编写 Javascript脚本文件
+2. 打开终端，定位到脚本文件所属目录
+3. 输入`node 文件名`执行对应的文件
+
+注意：文件名不要使用`node.js`来命名, 也就是说除了`node`这个名字你随便起，而且最好也不要使用中文
+
+- 解析执行 Javascript
+- 读写文件
+- http
+
+浏览器中的 javascript是没有文件操作的能力
+
+但是Node中的 avascript具有文件操作的能力
+
+fs是fi1e- system的简写，就是文件系统的意思
+
+在Node中如果想要进行文件操作，就必须引入fs这个核心模块
+
+在fs这个核心模块中，就提供了所有的文件操作相关的APT
+
+例如：fs. readFile就是用来读取文件的
+
+```js
+//1.使用 require方法加载fs核心模块
+var fs = require('fs')
+
+//2.读取文件
+	//第一个参数就是要读取的文件路径
+	//第二个参数是一个回调函数
+		//成功
+//	data  数据
+//	error null
+		//失败
+//	data  undefined
+//	error 错误对象
+fs.readFile('./data/hello.txt',function(error, data){
+    if(error){
+       console.log('读取文件失败了'); 
+    }else{
+        console.log(data.toString());
+    }
+})
+
+//3.写文件
+//	第一个参数：文件路径
+//	第二个参数：文件内容
+//	第三个参数：回调函数
+//		成功：
+//	文件写入成功
+//	error是nu11
+//		失败：
+//	文件写入失败
+//	error就是错误对象
+fs.writeFile('./data/你好.md','大家好，给大家介绍一下，我是Node.js', function (error){
+    if(error){
+       console.log('文件写入失败')
+    }else{
+        console.log('文件写入成功')
+    }
+})
+```
+
+
+
+最简单的HTTP服务
+
+```js
+//接下来，我们要干一件使用Node很有成就感的一件事儿
+//你可以使用Node非常轻松的构建一个web服务器
+//在Node中专门提供了一个核心模块:http
+//http 这个模块的职责就是帮你创建编写服务器的
+
+//1.加载 http 核心模块
+var http = require('http');
+
+//2.使用 http.createServer() 方法创建一个Meb服务器
+//返回一个 Server实例
+var server = http.createServer();
+
+//3.服务器要干嘛?
+//	提供服务：对数据的服务
+//	发请求
+//	接收请求
+//	处理请求
+//	给个反馈（发送响应）
+//	注册 request请求事件
+//	当客户端请求过来，就会自动触发服务器的 request 请求事件，然后执行第二个参数：回调处理函数
+//request请求事件处理函数，需要接收两个参数:
+//		Request请求对象
+//			请求对象可以用来获取客户端的一些请求信息，例如请求路径
+//		Response响应对象
+//			响应对象可以用来给客户端发送响应消息
+server.on('request', function(request, response){
+    console.log('收到客户端的请求了' + response.url);
+//	response对象有一个方法： write可以用来给客户端发送响应数据
+//	write可以使用多次，但是最后一定要使用 end 来结束响应，否则客户端会一直等待
+   // response.write('hello');
+   // response.write('nodejs');
+//	告诉客户端，我的话说完了，你可以呈递给用户了
+   //response.end();
+//上面的方式比较麻烦，推荐使用更简单的方式，直接end的同时发送响应数据    
+    //response.end('hello nodejs');
+      
+//由于现在我们的服务器的能力还非常的弱，无论是什么请求，都只能响应hel1o nodejs
+//思考
+//	我希望当请求不同的路径的时候响应不同的结果
+//    例如
+//	  / 		  index
+//    /1ogin    登陆
+//    /register 注册
+//    /haha	  哈哈哈
+    
+//根据不同的请求路径发送不同的响应结果
+//1.获取请求路径
+   // req.ur1获取到的是端口号之后的那一部分路径
+   // 也就是说所有的ur1都是以/开头的
+//2.判断路径处理响应   
+    var url =request.url;
+    if(url === '/'){
+        response.end('index page');
+    }else if(url === '/login'){
+        response.end('login page');
+    }else{
+        response.end('404 Not Found.');
+    }
+   
+//响应内容只能是二进制数据或者字符串  //数字 //对象 //数组 //布尔值
+    if(url == '/products'){
+        var products =[ {}, {},{} ]
+        response.end(JSON.stringify(products));
+    }
+    
+});
+
+//4.绑定端口号，启动服务器
+server.listen(3000,function(){
+    console.log('服务器启动成功了，可以通过http://127.0.0.1:3000/ 来进行访问')
+});
+```
+
+
+
+响应数据类型
+
+```js
+// require
+// 端口号
+
+var http = require('http')
+var server = http.createServer()
+
+server.on('request', function (req, res) {
+  // 在服务端默认发送的数据，其实是 utf8 编码的内容
+  // 但是浏览器不知道你是 utf8 编码的内容
+  // 浏览器在不知道服务器响应内容的编码的情况下会按照当前操作系统的默认编码去解析
+  // 中文操作系统默认是 gbk
+  // 解决方法就是正确的告诉浏览器我给你发送的内容是什么编码的
+  // 在 http 协议中，Content-Type 就是用来告知对方我给你发送的数据内容是什么类型
+  // res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+  // res.end('hello 世界')
+
+ var url = req.url
+ if (url === '/plain') {
+    // text/plain 就是普通文本
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+    res.end('hello 世界')
+  } else if (url === '/html') {
+    // 如果你发送的是 html 格式的字符串，则也要告诉浏览器我给你发送是 text/html 格式的内容
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.end('<p>hello html <a href="">点我</a></p>')
+  }
+})
+
+server.listen(3000, function () {
+  console.log('Server is running...')
+})
+
+```
+
+
+
+```js
+// 1. 结合 fs 发送文件中的数据
+// 2. Content-Type
+//    http://tool.oschina.net/commons
+//    不同的资源对应的 Content-Type 是不一样的
+//    图片不需要指定编码
+//    一般只为字符数据才指定编码
+
+var http = require('http')
+var fs = require('fs')
+
+var server = http.createServer()
+
+server.on('request', function (req, res) {
+  // / index.html
+  var url = req.url
+
+  if (url === '/') {
+    // 肯定不这么干
+    // res.end('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title></head><body><h1>首页</h1></body>/html>')
+
+    // 我们要发送的还是在文件中的内容
+    fs.readFile('./resource/index.html', function (err, data) {
+      if (err) {
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+        res.end('文件读取失败，请稍后重试！')
+      } else {
+        // data 默认是二进制数据，可以通过 .toString 转为咱们能识别的字符串
+        // res.end() 支持两种数据类型，一种是二进制，一种是字符串
+        res.setHeader('Content-Type', 'text/html; charset=utf-8')
+        res.end(data)
+      }
+    })
+  } else if (url === '/xiaoming') {
+    // url：统一资源定位符
+    // 一个 url 最终其实是要对应到一个资源的
+    fs.readFile('./resource/ab2.jpg', function (err, data) {
+      if (err) {
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+        res.end('文件读取失败，请稍后重试！')
+      } else {
+        // data 默认是二进制数据，可以通过 .toString 转为咱们能识别的字符串
+        // res.end() 支持两种数据类型，一种是二进制，一种是字符串
+        // 图片就不需要指定编码了，因为我们常说的编码一般指的是：字符编码
+        res.setHeader('Content-Type', 'image/jpeg')
+        res.end(data)
+      }
+    })
+  }
+})
+
+server.listen(3000, function () {
+  console.log('Server is running...')
+})
+
+```
+
+
+
+## 3. Node 中的JavaScript
+
+- Ecmascript
+  - 没有DOM、BOM
+- 核心模块
+- 第三方模块
+- 用户自定义模块
+
+###3.1.核心模块
+
+Node为 Javascript 提供了很多服务器级别的API, 这些API绝大多数都被包装到了一个具名的核心模块中了。
+
+例如文件操作的`fs`核心模块，http服务构建的`http`模块，`path`路径操作模块，`os`操作系统信息模块
+
+```js
+var fs = require('fs')
+var http = require('http');
+
+// 用来获取机器信息的
+var os  = require('os');
+// 用来操作路径的
+var path =require('path')
+
+// 获取当前机器的CPU信息
+console.log(os.cpus());
+// memory 内存
+console.log(os.totalmem());
+// extname extension name
+console.log(path.extname('c:/a/b/c/d/hello.txt'))
+```
+
+
+
+### 3.2 第三方模块
+
+###3.3用户自定义模块
+
+```js
+//require 是一个方法
+//它的作用：
+//	1.加载文件模块并执行里面的代码
+//	2.拿到被加载文件模块导出的接口对象
+
+//在每个文件模块中都提供了一个对象：exports
+//	exports默认是一个空对象
+//你要做的就是把所有需要被外部访问的成员挂载到这个 exports 对象中
+
+//在Node中，模块有三种：
+//	具名的核心模块，例如fs、http
+//	用户自己的文件模块
+//		相对路径必须加 ./
+//		可以省略后缀名
+//		相对路径中的 ./ 不能省略，否则报错
+
+//在Node中，没有全局作用域，只有模块作用域
+//	外部访问不到内部
+//	内部也访问不到外部
+//	默认都是封闭
+
+//既然是模块作用域，那如何让模块与模块之间进行通信
+//	有时候，我们加载文件模块的目的不是为了简简单单的执行里面的代码，更重要是为了使用里面的某个成员，
+
+var bExports = require('./b.js')--exports.foo = 'hello'
+```
+
+
+
+##4. Web服务器开发
+
+### 4.1. ip地址和端口号
+
+- ip地址用来定位计算机
+- 端口号用来定位具体的应用程序
+- 一切需要联网通信软件都会占用一个端口号
+- 端口号的范围从 0-65536 之间
+- 在计算机中有一些默认端口号，最好不要去使用
+  - 例如http服务的80
+- 我们在开发过程中使用一些简单好记的就可以了，例如3000、5000等没什么含义
+- 可以同时开启多个服务，但一定要确保不同服务占用的端口号不ー致オ可以
+- 说白了，在一台计算机中，同一个端口号同一时间只能被一个程序占用
+
+
+
+### 4.2.Content-type
+
+### 4.3.请求对象 Request
+
+### 4.4.响应对象 Response
+
+### 4.5.在Node中使用模板引擎
+
+### 4.6.统一处理静态资源
+
+###4.7.服务端渲染
+
+##5. 留言本
+
+![image-20210315083241823](images/Nodejs/image-20210315083241823.png)
+
+```js
+// 1. / index.html
+// 2. 开放 public 目录中的静态资源
+//    当请求 /public/xxx 的时候，读取响应 public 目录中的具体资源
+// 3. /post post.html
+// 4. /pinglun
+//    4.1 接收表单提交数据
+//    4.2 存储表单提交的数据
+//    4.3 让表单重定向到 /
+//        statusCode
+//        setHeader
+
+var http = require('http');
+var fs = require('fs');
+var url = require('url');
+var template = require('art-template');
+
+var comments = [
+    {
+        name: 'fjielin',
+        message: '今天天气不错！',
+        dateTime: '2021-03-14'
+    },
+];
+
+var server = http.createServer();
+
+server.on('request', function(req, res){
+    var parseObj = url.parse(req.url, true);
+    var pathname = parseObj.pathname;
+    if(pathname === '/'){
+        fs.readFile('./views/index.html', function(err, data){
+            if(err){
+                return res.end('404 Not Found.');
+            }
+            var htmlStr = template.render(data.toString(), {
+                comments: comments
+            })
+            return res.end(htmlStr);
+        })
+    }else if(pathname.indexOf('/public') === 0){   
+        fs.readFile('.' + pathname, function(err, data){
+            if(err){
+                return res.end('404 Not Found.');
+            }
+            return res.end(data);
+        })
+    }else if(pathname === '/post'){
+        fs.readFile('./views/post.html', function(err, data){
+            if(err){
+                return res.end('404 Not Found.');
+            }
+            return res.end(data);
+        })
+    }else if(pathname === '/comment'){
+        var comment = parseObj.query;
+        comment.dateTime = '2021-03-14';
+        comments.unshift(comment);
+
+        res.statusCode = 302;
+        res.setHeader('Location', '/');
+        res.end();
+    }else{
+        return res.end('404 Not Found.');
+    } 
+})
+server.listen(3000, function(){
+    console.log('服务器启动成功了，可以通过http://127.0.0.1:3000/ 来进行访问');
+})
+```
+
+
+
+初步实现Apache功能
+
+```js
+var http = require('http');
+var fs = require('fs');
+var server = http.createServer();
+
+var wwwDir = 'C:/app/www';
+
+server.on('request', function(req, res){
+    var url = req.url;
+    
+    var filePath = '/index.html';
+    if(url !== '/'){
+        filePath = url;
+    }
+    fs.readFile( wwwDir + filePath, function(err,data){
+			if(err){
+              return res.end('404 Not Found.');
+            }
+            res.end(data);
+        })
+    
+//上面的代码是下面这些代码的优化    
+//    if(url === '/'){
+//       	fs.readFile( wwwDir + '/index.html',function(err,data){
+//			if(err){
+//               return res.end('404 Not Found.');
+//            }
+//            res.end(data);
+//        })
+//    }else if(url === './a.txt'){
+//        fs.readFile( wwwDir + '/a.txt',function(err,data){
+//			if(err){
+//               return res.end('404 Not Found.');
+//            }
+//            res.end(data);
+//        })
+//    }else if(url === './index.html'){
+//        fs.readFile( wwwDir + '/index.html',function(err,data){
+//			if(err){
+//               return res.end('404 Not Found.');
+//            }
+//            res.end(data);
+//        })
+//    }
+})
+server.listen(3000, function(){
+    console.log('running...')
+})
+//咱们以前使用过 Apache服务器软件，这个软件默认有一个www目录，所有存放在www目录中的资源都可以通过网址来浏览
+
+```
+
+
+
+像Apache一样实现目录列表
+
+```js
+var http = require('http')
+var fs = require('fs')
+
+var server = http.createServer()
+var wwwDir = 'D:/Movie/www'
+
+server.on('request', function (req, res) {
+	var url = req.url
+  	fs.readFile('./template.html', function (err, data) {
+        if (err) {
+          return res.end('404 Not Found.')
+        }
+    // 1. 如何得到 wwwDir 目录列表中的文件名和目录名
+    //    fs.readdir
+    // 2. 如何将得到的文件名和目录名替换到 template.html 中
+    //    2.1 在 template.html 中需要替换的位置预留一个特殊的标记（就像以前使用模板引擎的标记一样）
+    //    2.2 根据 files 生成需要的 HTML 内容
+    // 只要你做了这两件事儿，那这个问题就解决了
+        fs.readdir(wwwDir, function (err, files) {
+        	if (err) {
+        		return res.end('Can not find www dir.')
+     	     }
+
+      // 2.1 生成需要替换的内容
+      		var content = ''
+      		files.forEach(function (item) {
+        // 在 EcmaScript 6 的 ` 字符串中，可以使用 ${} 来引用变量
+        	content += `
+          <tr>
+            <td data-value="apple/"><a class="icon dir" href="/D:/Movie/www/apple/">${item}/</a></td>
+            <td class="detailsColumn" data-value="0"></td>
+            <td class="detailsColumn" data-value="1509589967">2017/11/2 上午10:32:47</td>
+          </tr>
+        `
+      	})
+
+      // 2.3 替换
+      	data = data.toString()
+      	data = data.replace('^_^', content)
+
+      // 3. 发送解析替换过后的响应数据
+      	res.end(data)
+    })
+  })
+})
+server.listen(3000, function () {
+  console.log('running...')
+})
+
+```
+
+
+
+在node中使用模板引擎
+
+```js
+// art-template
+// art-template 不仅可以在浏览器使用，也可以在 node 中使用
+
+// 安装：
+//    npm install art-template
+//    该命令在哪执行就会把包下载到哪里。默认会下载到 node_modules 目录中
+//    node_modules 不要改，也不支持改。
+
+// 在 Node 中使用 art-template 模板引擎
+// 模板引起最早就是诞生于服务器领域，后来才发展到了前端。
+// 
+// 1. 安装 npm install art-template
+// 2. 在需要使用的文件模块中加载 art-template
+//    只需要使用 require 方法加载就可以了：require('art-template')
+//    参数中的 art-template 就是你下载的包的名字
+//    也就是说你 isntall 的名字是什么，则你 require 中的就是什么
+// 3. 查文档，使用模板引擎的 API
+
+var template = require('art-template')
+var fs = require('fs')
+
+// 这里不是浏览器
+// template('script 标签 id', {对象})
+
+// var tplStr = `
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//   <meta charset="UTF-8">
+//   <title>Document</title>
+// </head>
+// <body>
+//   <p>大家好，我叫：{{ name }}</p>
+//   <p>我今年 {{ age }} 岁了</p>
+//   <h1>我来自 {{ province }}</h1>
+//   <p>我喜欢：{{each hobbies}} {{ $value }} {{/each}}</p>
+//	 <script>
+//   	var foo = '{{ title }}'
+//   </script>
+// </body>
+// </html>
+// `
+//把上面的模版字符串另存在 ./tpl.html 文件中 ，再用readFile读取
+
+fs.readFile('./tpl.html', function (err, data) {
+  if (err) {
+    return console.log('读取文件失败了')
+  }
+  // 默认读取到的 data 是二进制数据
+  // 而模板引擎的 render 方法需要接收的是字符串
+  // 所以我们在这里需要把 data 二进制数据转为 字符串 才可以给模板引擎使用
+  var ret = template.render(data.toString(), {
+    name: 'Jack',
+    age: 18,
+    province: '北京市',
+    hobbies: [
+      '写代码',
+      '唱歌',
+      '打游戏'
+    ],
+    title: '个人信息'
+  })
+
+  console.log(ret)
+})
+
+```
+
+
+
+在Apache案例中加入模版引擎
+
+```js
+var http = require('http')
+var fs = require('fs')
+var template = require('art-template')
+
+var server = http.createServer()
+
+var wwwDir = 'D:/Movie/www'
+
+server.on('request', function (req, res) {
+  var url = req.url
+  fs.readFile('./template-apache.html', function (err, data) {
+    if (err) {
+      return res.end('404 Not Found.')
+    }
+    // 1. 如何得到 wwwDir 目录列表中的文件名和目录名
+    //    fs.readdir
+    // 2. 如何将得到的文件名和目录名替换到 template.html 中
+    //    2.1 在 template.html 中需要替换的位置预留一个特殊的标记（就像以前使用模板引擎的标记一样）
+    //    2.2 根据 files 生成需要的 HTML 内容
+    // 只要你做了这两件事儿，那这个问题就解决了
+    fs.readdir(wwwDir, function (err, files) {
+      if (err) {
+        return res.end('Can not find www dir.')
+      }
+
+      // 这里只需要使用模板引擎解析替换 data 中的模板字符串就可以了
+      // 数据就是 files
+      // 然后去你的 template.html 文件中编写你的模板语法就可以了
+      var htmlStr = template.render(data.toString(), {
+        title: '哈哈',
+        files: files
+      })
+
+      // 3. 发送解析替换过后的响应数据
+      res.end(htmlStr)
+    })
+  })
+})
+server.listen(3000, function () {
+  console.log('running...')
+})
+```
+
+template-apache.html
+
+```html
+<html dir="ltr" lang="zh" i18n-processed="">
+<head>
+  <meta charset="utf-8">
+  <meta name="google" value="notranslate"> 
+  <style>
+    h1 {
+      border-bottom: 1px solid #c0c0c0;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      white-space: nowrap;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    th {
+      cursor: pointer;
+    }
+    td.detailsColumn {
+      -webkit-padding-start: 2em;
+      text-align: end;
+      white-space: nowrap;
+    }
+    a.icon {
+      -webkit-padding-start: 1.5em;
+      text-decoration: none;
+    }
+    a.icon:hover {
+      text-decoration: underline;
+    }
+    a.file {
+      background: url("data:image/png;") left top no-repeat;
+    }
+
+    a.dir {
+      background: url("data:image/png;") left top no-repeat;
+    }
+
+    a.up {
+      background: url("data:image/png;") left top no-repeat;
+    }
+    html[dir=rtl] a {
+      background-position-x: right;
+    }
+    #parentDirLinkBox {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+    }
+    #listingParsingErrorBox {
+      border: 1px solid black;
+      background: #fae691;
+      padding: 10px;
+      display: none;
+    }
+  </style>
+  <title id="title">{{ title }}</title>
+</head>
+<body>
+  <div id="listingParsingErrorBox">糟糕！Google Chrome无法解读服务器所发送的数据。请<a href="http://code.google.com/p/chromium/issues/entry">报告错误</a>，并附上<a href="LOCATION">原始列表</a>。</div>
+  <h1 id="header">D:\Movie\www\ 的索引</h1>
+  <div id="parentDirLinkBox" style="display:none">
+    <a id="parentDirLink" class="icon up">
+    <span id="parentDirText">[上级目录]</span>
+  </a>
+  </div>
+  <table>
+    <thead>
+      <tr class="header" id="theader">
+        <th onclick="javascript:sortTable(0);">名称</th>
+        <th class="detailsColumn" onclick="javascript:sortTable(1);">
+          大小
+        </th>
+        <th class="detailsColumn" onclick="javascript:sortTable(2);">
+          修改日期
+        </th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      {{each files}}
+      <tr>
+        <td data-value="apple/"><a class="icon dir" href="/D:/Movie/www/apple/">{{$value}}/</a></td>
+        <td class="detailsColumn" data-value="0"></td>
+        <td class="detailsColumn" data-value="1509589967">2017/11/2 上午10:32:47</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</body>
+</html>
+```
+
+
+
+##6.Node中的模块系统
+
+使用Node编写应用程序主要就是在使用
+
+- Ecmascript语言
+  - 和浏览器不一样，在Node中没有BOM、DOM
+- 核心模块
+  - 文件操作的fs
+  - http服务的http
+  - url 路径操作模块
+  - path路径处理模块
+  - os操作系统信息
+- 第三方模块
+  - art-template
+  - 必须通过npm来下载才可以使用
+- 咱们自己写的模块
+  - 自己创建的文件
+
+### 6.1.什么是模块化
+
+- 文件作用域
+- 通讯规则
+  - 加载 require
+  - 导出
+
+### 6.2. CommonJS 模块规范
+
+在Node中的 Javascript还有一个很重要的概念：模块系统。
+
+- 模块作用域
+- 使用 require方法用来加载模块
+- 使用 exports接口对象用来导出模块中的成员
+
+#### 6.2.1.加载`require`
+
+语法：
+
+```js
+var 自定义变量名称 = requirq('模块')；
+```
+
+两个作用：
+
+- 执行被加载模块中的代码
+- 得到被加载模块中的 `exports`导出接口对象
+
+####6.2.2.导出`exports`
+
+- Node中是模块作用域，默认文件中所有的成员只在当前文件模块有效
+
+- 对于希望可以被其它模块访回的成员，我们就需要把这些公开的成员都挂载到 exports接口对象中就可以了
+
+导出多个成员（必须在对象中）
+
+```js
+exports.a = 123;
+exports.b = 'hello';
+exports.c = function(){
+    console.log('ccc');
+}
+exports.d = {
+    foo : 'bar'
+}
+```
+
+导出单个成员(拿到的就是：函数、字符串)：
+
+```javascript
+module.exports = 'hello';
+```
+
+以下情况会覆盖
+
+```js
+module.exports = 'hello';
+
+//后者会覆盖前者
+module.exports = function(x, y){
+	return x + y;
+}
+```
+
+也可以这样来导出多个成员
+
+```js
+module.exports = {
+    add:  function(x, y){
+		return x + y;
+	},
+    str: 'hello'
+} 
+```
+
+#### 6.2.3.原理解析
+
+export  是 `module.exports`的一个引用
+
+```js
+console.log(exports === module.exports); // => true
+
+exports.foo = 'bar';
+//等价于
+module.exports.foo = 'bar';
+```
+
+
+
+```js
+// 在 Node 中，每个模块内部都有一个自己的 module 对象
+// 该 module 对象中，有一个成员叫：exports 也是一个对象
+// 也就是说如果你需要对外导出成员，只需要把导出的成员挂载到 module.exports 中
+
+// 我们发现，每次导出接口成员的时候都通过 module.exports.xxx = xxx 的方式很麻烦，点儿的太多了
+// 所以，Node 为了简化你的操作，专门提供了一个变量：exports 等于 module.exports
+
+// var module = {
+//   exports: {
+//     foo: 'bar',
+//     add: function
+//   }
+// }
+
+// 也就是说在模块中还有这么一句代码
+// var exports = module.exports
+
+// module.exports.foo = 'bar'
+// module.exports.add = function (x, y) {
+//   return x + y
+// }
+
+// 两者一致，那就说明，我可以使用任意一方来导出内部成员
+// console.log(exports === module.exports)
+
+// exports.foo = 'bar'
+// module.exports.add = function (x, y) {
+//   return x + y
+// }
+
+// 当一个模块需要导出单个成员的时候
+// 直接给 exports 赋值是不管用的
+
+// exports.a = 123
+
+// exports = {}
+// exports.foo = 'bar'
+
+// module.exports.b = 456
+
+// 给 exports 赋值会断开和 module.exports 之间的引用
+// 同理，给 module.exports 重新赋值也会断开
+
+// 这里导致 exports !== module.exports
+// module.exports = {
+//   foo: 'bar'
+// }
+
+// // 但是这里又重新建立两者的引用关系
+// exports = module.exports
+// exports.foo = 'hello'
+
+// {foo: bar}
+exports.foo = 'bar'
+
+// {foo: bar, a: 123}
+module.exports.a = 123
+
+// exports !== module.exports
+// 最终 return 的是 module.exports
+// 所以无论你 exports 中的成员是什么都没用
+exports = {
+  a: 456
+}
+
+// {foo: 'haha', a: 123}
+module.exports.foo = 'haha'
+
+// 没关系，混淆你的
+exports.c = 456
+
+// 重新建立了和 module.exports 之间的引用关系了
+exports = module.exports
+
+// 由于在上面建立了引用关系，所以这里是生效的
+// {foo: 'haha', a: 789}
+exports.a = 789
+
+// 前面再牛逼，在这里都全部推翻了，重新赋值
+// 最终得到的是 Function
+module.exports = function () {
+  console.log('hello')
+}
+
+// 真正去使用的时候：
+//    导出多个成员：exports.xxx = xxx
+//    导出多个成员也可以：module.exports = {
+//                        }
+//    导出单个成员：module.exports
+
+// 谁来 require 我，谁就得到 module.exports
+// 默认在代码的最后有一句：
+// 一定要记住，最后 return 的是 module.exports
+// 不是 exports
+// 所以你给 exports 重新赋值不管用，
+// return module.exports
+```
+
+
+
+#### 6.2.4 exports 和 module.exports 的区别
+
+
+- exports 和 module.exports 的区别
+  + 每个模块中都有一个 module 对象
+  + module 对象中有一个 exports 对象
+  + 我们可以把需要导出的成员都挂载到 module.exports 接口对象中
+  + 也就是：`moudle.exports.xxx = xxx` 的方式
+  + 但是每次都 `moudle.exports.xxx = xxx` 很麻烦，点儿的太多了
+  + 所以 Node 为了你方便，同时在每一个模块中都提供了一个成员叫：`exports`
+  + `exports === module.exports` 结果为  `true`s
+  + 所以对于：`moudle.exports.xxx = xxx` 的方式 完全可以：`expots.xxx = xxx`
+  + 当一个模块需要导出单个成员的时候，这个时候必须使用：`module.exports = xxx` 的方式
+  + 不要使用 `exports = xxx` 不管用
+  + 因为每个模块最终向外 `return` 的是 `module.exports`
+  + 而 `exports` 只是 `module.exports` 的一个引用
+  + 所以即便你为 `exports = xx` 重新赋值，也不会影响 `module.exports`
+  + 但是有一种赋值方式比较特殊：`exports = module.exports` 这个用来重新建立引用关系的
+  + 之所以让大家明白这个道理，是希望可以更灵活的去用它
+- Node 是一个比肩 Java、PHP 的一个平台
+  + JavaScript 既能写前端也能写服务端
+
+#### 6.2.5.require 方法的加载规则
+
+- 核心模块
+
+  - 模块名
+
+- 第三方模块
+
+  - 模块名
+
+- 用户自己写的
+
+  - 路径
+
+  
+
+- 优先从缓存加载
+- 判断模块标识
+  - 核心模块
+  -  第三方模块
+  - 自己写的模块
+
+```js
+// 如果是非路径形式的模块标识
+// 路径形式的模块：
+//  ./ 当前目录，不可省略
+//  ../ 上一级目录，不可省略
+//  /xxx 几乎不用
+//  d:/a/foo.js 几乎不用
+//  首位的 / 在这里表示的是当前文件模块所属磁盘根路径
+//  .js 后缀名可以省略
+// require('./foo.js')
+
+// 核心模块的本质也是文件
+// 核心模块文件已经被编译到了二进制文件中了，我们只需要按照名字来加载就可以了
+// require('fs')
+// require('http')
+
+// 第三方模块
+// 凡是第三方模块都必须通过 npm 来下载
+// 使用的时候就可以通过 require('包名') 的方式来进行加载才可以使用
+// 不可能有任何一个第三方包和核心模块的名字是一样的
+
+// 既不是核心模块、也不是路径形式的模块
+//    先找到当前文件所处目录中的 node_modules 目录
+//    node_modules/art-template
+//    node_modules/art-template/package.json 文件
+//    node_modules/art-template/package.json 文件中的 main 属性
+//    main 属性中就记录了 art-template 的入口模块
+//    然后加载使用这个第三方包
+//    实际上最终加载的还是文件
+
+//    如果 package.json 文件不存在或者 main 指定的入口模块是也没有
+//    则 node 会自动找该目录下的 index.js
+//    也就是说 index.js 会作为一个默认备选项
+//    
+//    如果以上所有任何一个条件都不成立，则会进入上一级目录中的 node_modules 目录查找
+//    如果上一级还没有，则继续往上上一级查找
+//    。。。
+//    如果直到当前磁盘根目录还找不到，最后报错：
+//      can not find module xxx
+// var template = require('art-template')
+// 
+// 注意：我们一个项目有且只有一个 node_modules，放在项目根目录中，这样的话项目中所有的子目录中的代码都可以加载到第三方包
+// 不会出现有多个 node_modules
+// 模块查找机制
+//    优先从缓存加载
+//    核心模块
+//    路径形式的文件模块
+//    第三方模块
+//      node_modules/art-template/
+//      node_modules/art-template/package.json
+//      node_modules/art-template/package.json main
+//      index.js 备选项
+//      进入上一级目录找 node_modules
+//      按照这个规则依次往上找，直到磁盘根目录还找不到，最后报错：Can not find moudle xxx
+//    一个项目有且仅有一个 node_modules 而且是存放到项目的根目录
+
+require('a')
+```
+
+
+
+### 6.3 npm
+
+- node package manager
+
+#### 6.3.1 npm网站
+
+> npmjs.com
+
+#### 6.3.2 npm 命令行工具
+
+npm的第二层含义就是一个命令行工具，只要你安装了node就已经安装了npm，npm也有版本这个概念
+可以通过在命令行中输入
+
+```shell
+npm --version
+```
+
+升级npm（自己升级自己）
+
+```shell
+npm install --global npm
+```
+
+#### 6.3.3 常用命令
+
+- npm init
+  - npm init -y 可以跳过向导，快速生成
+- npm install
+  - 一次性把 dependencies选项中的依赖项全部安装
+  - npm i
+- npm install 包名
+  - 只下载
+  - npm i 包名
+- npm install-asve 包名
+  - 下载并且保存依赖项( package json文件中的 dependencies选项)
+  -  npm i -S 包名
+- npm uninstall 包名
+  - 只删除，如果有依赖项会依然保存
+  - npm un 包名
+- npm uninstall-seve 包名
+  - 除的同时也会把依赖信息也去除
+  - npm un -S 包名
+- npm help
+  - 查看使用帮助
+- npm 命令 --help
+  - 查看指定命令的使用帮助
+  - 例如我忘记了 uninstall命令的简写了，这个时候，可以输入 `npm uninstall --help`来查看使用帮助
+
+#### 6.3.4 解决npm被墙问题
+
+npm 存储包文件的服务器在国外，有时候会被墙，速度很慢，所以我们需要解决这个问題。
+
+**http://npm.taobao.org/ **
+
+淘宝的开发团队把npm在国内做了一个备份。
+
+安装淘宝的cnpm:
+
+```shell
+# 在任意目示执行都可以
+# --global 表示安装到全局，而非当前目录
+# --global 不能省略，否则不管用
+npm install --global cnpm
+```
+
+接下来你安装包的时候把之前的`npm`替换成`cnpm`
+
+举个例子：
+
+```shell
+#这里还是走国外的npm服务器，速度比较慢
+npm install jquery
+
+#使用cnpm就会通过淘宝的服务器来下载 jquery
+cnpm install jquery
+```
+
+如果不想装`cnpm`又想使用淘宝的服务器来下载：
+
+```shell
+npm install jquery --registry=https://registry.npm.taobao.org
+```
+
+但是每一次手动这样加参数很麻烦，所我们可以把这个选项加入配置文件中
+
+```shell
+npm config set registry https://registry.npm.taobao.org
+
+#查看 npm 配置信息
+npm config list
+```
+
+只要经过了上面命令的配置，则你以后所有的 `npm install`都会默认通过淘宝的服务器来下载。
+
+### 6.4 package.json
+
+我们建议每一个项目都要有一个 `package.json`文件(包描述文件，就像产品的说明书一样)，给人踏实的感觉
+
+这个文件可以通过  `npm init` 的方式来自动初始化出来。
+
+```
+CMD...
+D:\我的坚果云\前端学习\JS学习\node>npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields
+and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and
+save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (node)
+version: (1.0.0) 0.0.1
+description: 这是一个测试项目
+entry point: (index.js) main.js
+test command:
+git repository:
+keywords:
+author: lipengzhou
+license: (ISC)
+About to write to D:\我的坚果云\前端学习\JS学习\node\package.json:
+
+{
+  "name": "node",
+  "version": "0.0.1",
+  "description": "这是一个测试项目",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lipengzhou",
+  "license": "ISC"
+}
+
+Is this OK? (yes) yes
+
+D:\我的坚果云\前端学习\JS学习\node>
+
+```
+
+对于咱们目前来讲，最有用的是那个  `dependencies` 选项，可以用来帮我们保存第三方包的依赖信息.
+
+如果你的`node_ modules` 删除了也不用担心，我们只需要： `npm install` 就会自动把 `package.json`中的`dependencies`中所有的依赖项都下载回来
+
+- 建议每个项目的根目录下都有一个 `package.json`文件
+- 建议执行 `npm install包名` 的的时候都加上`--save`这个选项，目的是用来保存依赖项信息
+
+#### 6.4.1 package.json 和 package-lock.json
+
+npm 5 以前是不会有`package-lock.json` 这个文件的
+
+npm 5 以后才加入了这个文件
+
+当你安装 包的时候，npm 都会自动生成或者更新`package-lock.json`这个文件
+
+- npm 5 以后的版本安装 包 不需要加`--sava`参数，它会自动保存依赖信息
+- 当你安装包的时候，会自动创建或者是更新` package-lock`这个文件
+- `package-lock.json`这个文件会保存`node_ modules`中所有包的信息、(版本、下载地址)
+  - 这样的话重新 `npm install`的时候速度就可以提升
+- 从文件来看，有一个 `lock` 称之为锁
+  - 这个`lock`是用来锁定版本的
+  - 如果项目依赖了`1.1.1`版本
+  - 如果你重新 isntall 其实会下執最新版本，而不是1.1.1
+  - 我们的目的就是希望可以锁住1.1.1这个版本
+  - 所以这个 `package-lock.json` 这个文件的另一个作用就是锁定版本号，防止自动升級新版
+
+### 7.Express
+
+原生的http在某些方面表现不足以应对我们的开发需求，所以我们就需要使用框架来加快我们的开发效率，框架的目的就是提高效率，让我们的代码更高度统一
+
+在Node中，有很多Web开发框架，我们这里以学中 `express`为主
+
+**http://expressjs.com/**
+
+```js
+// 0. 安装
+// 1. 引包
+var express = require('express')
+
+// 2. 创建你服务器应用程序
+//    也就是原来的 http.createServer
+var app = express()
+
+// 在 Express 中开放资源就是一个 API 的事儿
+// 公开指定目录
+// 只要这样做了，你就可以直接通过 /public/xx 的方式访问 public 目录中的所有资源了
+app.use('/public/', express.static('./public/'))
+app.use('/static/', express.static('./static/'))
+app.use('/node_modules/', express.static('./node_modules/'))
+
+// 模板引擎，在 Express 也是一个 API 的事儿
+
+// 得到路径
+// 一个一个的判断
+// 以前的代码很丑
+
+app.get('/about', function (req, res) {
+  // 在 Express 中可以直接 req.query 来获取查询字符串参数
+  console.log(req.query)
+  res.send('你好，我是 Express!')
+})
+
+app.get('/pinglun', function (req, res) {
+  // req.query
+  // 在 Express 中使用模板引擎有更好的方式：res.render('文件名， {模板对象})
+  // 可以自己尝试去看 art-template 官方文档：如何让 art-template 结合 Express 来使用
+})
+
+// 当服务器收到 get 请求 / 的时候，执行回调处理函数
+app.get('/', function (req, res) {
+  res.send(`
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+<body>
+  <h1>hello Express！你好</h1>
+</body>
+</html>
+`)
+})
+
+// 相当于 server.listen
+app.listen(3000, function () {
+  console.log('app is running at port 3000.')
+})
+```
+#### 7.1 起步
+
+####7.1.1  安装
+
+```shell
+npm install --save express
+```
+
+####7.1.2 hello world
+```js
+var express = require('express')
+// 1. 创建 app
+var app = express()
+// 2. 开放静态资源 
+app.use(express.static('./public/'))
+// 3. 发请求
+app.get('/', function (req, res) {
+  res.send('hello world')
+})
+// 4. 监听端口
+app.listen(3000, function () {
+  console.log('express app is running ...')
+})
+```
+
+####7.1.3 基本路由
+
+路由器
+
+- 请求方法
+- 请求路径
+- 请求处理函数
+
+get:
+```js
+// 当你以 GET 方法请求 / 的时候，执行对应的处理函数
+app.get('/', function(req, res){
+	res.send('Hello World!');
+})
+```
+
+post:
+```js
+// 当你以 POST 方法请求 / 的时候，执行对应的处理函数
+app.post('/', function(req, res){
+	res.send('Got a POST request')
+})
+```
+
+####7.1.4 静态服务:
+```js
+// 127.0.0.1:3000/login.html
+app.use(express.static('./public'));
+app.use(express.static('./files'));
+
+// 127.0.0.1:3000/public/login.html
+app.use('/public/', express.static('./public'));
+
+// 127.0.0.1:3000/static/login.html
+app.use('/static/', express.static('./public'));
+
+app.use('/static/', express.static(_dirname, './public'));
+```
+
+####7.2 在 Express中配置使用 `art- template` 模板引擎
+
+安装
+```shell
+npm install --save art-template
+npm install --save express-art-template
+```
+
+配置
+```js
+//第一个参数，表示当渲染以.art结尾的文件的时候，使用art- template模板引擎
+app.engine('art', require('express-art-template'));
+```
+
+使用
+```js
+app.set('/', function(req, res){
+//experess 默认会去项目中的 views 目录中找 index.html
+res.render('index.html', {
+	title: 'hello world'
+  })
+})
+```
+
+如果希望修改默认的 views视图渲染存储目录
+```js
+//注意：第一个参数 views干万不要写错
+app.set('views', render函数的默认路径);
+```
+
+####7.3.在 Express 获取表单GET请求体数据
+
+Express 内置了一个API,可以直接通过 `req.query`来获取
+
+```js
+req.query
+```
+
+####7.4.在 Express 获取表单POST请求体数据
+
+在 Express  中没有内置获取表单POST请求体的AP,这里我们需要使用一个第三方包：`body-parser`
+
+安装
+```shell
+npm install --save body-parser
+```
+
+配置
+```js
+var express = require('express')
+//0. 引包
+var bodyParser = require('body-parser')
+
+var app = express()
+
+//配置body-parser
+//只要加入这个配置，则在req请求对象上会多出来一个属性：body
+//也就是说你就可以直接通过req.body来获取表单POST请求体数据了
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+```
+
+使用
+```js
+app.use(function (req, res) {
+  res.setHeader('Content-Type', 'text/plain')
+  res.write('you posted:\n')
+  //可以通过req.body来获取表单POST请求体数据
+  res.end(JSON.stringify(req.body, null, 2))
+})
+```
+
+#### 7.5 Express - crud 案例
+
+模块化思想
+
+模块如何划分
+
+- 模块职责要单一
+- Vue
+- angular
+- React
+- 也非常有利于学习前端三大框架
+
+####7.5.1  起步
+
+- 初始化
+- 模板处理
+
+####7.5.2 路由设计
+
+| 请求方法 |     请求路径     | get 参数 |           post 参数            |       备注       |
+|----------|------------------|----------|--------------------------------|------------------|
+| GET      | /studens         |          |                                | 渲染首页         |
+| GET      | /students/new    |          |                                | 渲染添加学生页面 |
+| POST     | /studens/new     |          | name、age、gender、hobbies     | 处理添加学生请求 |
+| GET      | /students/edit   | id       |                                | 渲染编辑页面     |
+| POST     | /studens/edit    |          | id、name、age、gender、hobbies | 处理编辑请求     |
+| GET      | /students/delete | id       |                                | 处理删除请求     |
+|          |                  |          |                                |                  |
+
+####7.5.3 提取路由模块
+
+router.js
+```js
+router.js 路由模块
+// 职责：处理路由
+// 根据不同的请求方法 + 请求路径设置具体的请求处理数
+// 模块职责要单一，不要乱写
+// 我们划分模块的目的就是为了增强项目代码的可维护
+// 提升开发效率
+var fs = require('fs');
+var express = require('express');
+
+//1.创建一个路由容器
+var router = express.Router();
+
+//2.把路由都挂戟到 router路由容器中
+router.get('/', function (req, res) {
+    fs.readFile('./db.json', 'utf8', function (err, data) {
+        if (err) {
+            return res.status(500).send('Server error.');
+        }
+        var students = JSON.parse(data).students;
+        res.render('index.html', {
+            fruits: [
+                '苹果',
+                '香蕉',
+                '橘子'
+            ],
+            students: students
+        });
+    })
+})
+
+router.get('/students/new', function (req, res) {
+        res.render('new.html');
+})
+router.post('/students/new', function (req, res) {
+    console.log(req.body); 
+})
+router.get('/students/edit', function (req, res) {
+})
+router.post('/students/edit', function (req, res) {
+})
+router.get('/students/delete', function (req, res) {
+})
+//3.把router导出
+module.exports = router;
+```
+
+app.js
+```js
+var router = require('./router')
+
+//挂载路由
+app.use(router)
+```
+
+####7.5.4 设计操作数据的API文件模块
+
+```js
+/**
+ * student.js
+ * 数据操作文件模块
+ * 职责：操作文件中的数据，只处理数据，不关心业务
+ *
+ * Node 的精华部分：奥义之所在
+ * 封装异步 API
+ */
+
+// 获取学生列表
+exports.find = function(){
+
+}
+
+// 添加保存学生
+exports.save = function(){
+
+}
+
+// 更新学生
+exports.update = function(){
+
+}
+
+// 删除学生
+exports.delete = function(){
+
+}
+
+```
+
+####7.5.5 自已编写的步骤
+
+- 处理模板
+- 配置开放静态资源
+- 配置模板引擎
+- 简单路由：/students 渲染静态页出来
+- 路由设计
+- 提取路由模块
+- 由于接下来一些列的业务操作都需要处理文件数据，所以我们需要封装 student.js
+- 先写好 student. js文件结构
+   - 查询所有学生列表的 API find
+   - findById
+   - Save
+   - updateById
+   - deleteById
+- 实现具体功能
+   - 通过路由收到请求
+   - 接收请求中的数据(get、post)
+  	- req.query
+  	- req. body
+   - 调用数据操作API处理数据
+   - 根据操作结果给客户端发送响应
+ - 业务功能顺序
+    - 列表
+    - 添加
+    - 编辑
+    - 删除
+ - find
+ - findIndex
+
+
+
+#### 7.6 在 Express 配置使用 `express-session` 插件
+
+安装
+
+> npm i express-session
+
+配置
+
+```js
+var session = require('express-session')
+
+// express-session 用来提供对 Session 和 Cookie 支持
+app.use(session({
+    secret: 'keyboard cat', // 配置加密字符串
+    resave: false,           
+    saveUninitialized: true // 无论是否使用 Session,都默认分配一把钥匙
+}))
+```
+
+使用
+
+```js
+//添加 Session 数据
+req.session.foo = 'bar'
+
+//获取 Session 数据
+req.session.foo
+```
+
+提示：默认 Session 数据是内存存储的，服务器一旦重启就会丢失，真正的生产环境把 Session进行持久化存储
+
+
+
+### 8.MongoDB
+
+####8.1.关系型数据库和非关系型数据库
+
+表就是关系
+
+或者说表与表之间存在关系
+
+- 所有的关系型数据库都需要通过`sql`语言来操作
+- 所有的关系型数据库在操作之前都需要设计表结构
+- 而且数据表还支持约束
+  - 唯一的
+  - 主键
+  - 默认值
+  - 非空
+- 非关系型数据库非常的灵活
+- 有的非关系型数据库就是 key-value 对儿
+- 但是 MongoDB是 长的 最像关系型数据库的非关系型数据库
+  - 数据库 -》数据库
+  - 数据表 -》集合（数组）
+  - 表记录 -》（文档对象）
+- MongoDB不需要设计表结构
+- 也就是说你可以任意的往里面存数据，没有结构性这么一说
+
+####8.2 安装
+
+- 下载
+- 安装
+- 配置环境变量
+- 最后输入`mongod --version` 测试是否安装成功
+
+```shell
+C:\Users\jie\Desktop>mongod --version
+db version v3.4.24
+git version: 865b4f6a96d0f5425e39a18337105f33e8db504d
+allocator: tcmalloc
+modules: none
+build environment:
+    distmod: 2008plus
+    distarch: x86_64
+    target_arch: x86_64
+
+C:\Users\jie\Desktop>
+```
+
+####8.3启动和关闭数据库
+
+```shell
+#mongodb默认使用执行 mongo命令所处盘符根目录下的 /data/db 作为自己的数据存储目录
+#所以在第一次执行该命令之前先自己手动新建一个 /data/db
+mongod
+```
+
+如果想要修改默认的数据存储目录，可以：
+```shell
+mongod --dbpath=数据存储目录路径
+```
+
+停止
+```shell
+在开启服务的控制台，直接 Ctrl+c 即可停止。
+或者直接关闭开启服务的控制台也可以。
+```
+
+####8.4.连接数据库
+
+连接：
+```shell
+# 该命令默认连接本机的 MongoDB 服务
+mongo
+```
+
+退出：
+```shell
+#在连接状态输入exit退出连接
+exit
+```
+
+####8.5.基本命令
+
+```shell
+show dbs # 查看显示所有数据库
+db #查看当前操作的数据库
+use 数据库名称 # 切换到指定的数据（如果没有会新建）
+show collections
+db.students.insertOne({"name":"Jack"}) # 插入数据
+db.students.find()
+```
+
+####8.6.在Node中如何操作 MongoDB数据
+
+#####8.6.1.使用官方的`mongodb`包来操作
+
+> http://github.com/mongodb/node-mongodb-native
+
+#####8.6.2.使用第三方  mongoose 来操作 MongoDb数据库
+
+第三方包： `mongoose` 基于 MongoDB官方的 `mongodb`包再一次做了封装。
+
+> http://mongoosejs.com
+
+
+
+MongoDB数据库的基本概念
+
+- 可以有多个数据库
+- 一个数据库中可以有多个集合（表）
+- 一个集合中可以有多个文档（表记录）
+- 文档结构很灵活，没有任何限制
+- Mongodb非常灵活，不需要像My5QL一样先创建数据库表、设计表结构
+  - 在这里只需要：当你需要插入数据的时候侯，只需要指定往哪个数据库的哪个集合操作就可以了
+  - 一切都由 Mongodb来帮你自动完成建库建表这件事儿
+
+
+
+```js
+{
+	qq: {
+		users: [
+		{name: 'zhangs', age: 12},
+		{name: 'zhangs', age: 12},
+		{name: 'zhangs', age: 12}
+		],
+		products: [],
+		...
+	},
+	taobao: {},
+    baidu: {}
+}
+```
+
+
+
+1. 起步：
+```shell
+npm i mongoose
+```
+
+2. helloworld：
+```js
+var mongoose = require('mongoose');
+
+//连接MongoDB数据库
+mongoose.connect('mongodb://localhost/test',{useMongoClient: true});
+
+mongoose.Promise = global.Promise;
+
+//创建一个模型
+var Cat = mongoose.model('Cat', {name: String});
+
+var kitty = new Cat({name: 'Zildjian'});
+kitty.save(function(err){
+	if(err){
+		console.log(err);
+	}else{
+		console.log('meow');
+	}
+});
+```
+
+3. 官方指南
+
+设计 Scheme发布Model
+
+```js
+var mongoose = require('mongoose')
+
+var Schema = mongoose.Schema
+
+// 1. 连接数据库
+mongoose.connect('mongodb://localhost/itcast')
+
+// 2. 设计文档结构（表结构）
+var userSchema = new Schema({
+  username: {
+    type: String,
+    required: true // 必须有
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String
+  }
+})
+
+// 3. 将文档结构发布为模型
+//    mongoose.model 方法就是用来将一个架构发布为 model
+//    第一个参数：传入一个大写名词单数字符串用来表示你的数据库名称
+//    第二个参数：架构 Schema
+//    返回值：模型构造函数
+var User = mongoose.model('User', userSchema)
+
+//4. 有了模型构造函数之后，就可以使用这个构造函数对 users 集合中的数据增删改查
+```
+
+增加数据
+
+```js
+var admin = new User({
+  username: 'zs',
+  password: '123456',
+  email: 'admin@admin.com'
+})
+
+admin.save(function (err, ret) {
+  if (err) {
+    console.log('保存失败')
+  } else {
+    console.log('保存成功')
+  }
+})
+```
+
+查询数据
+
+```js
+//查询所有
+User.find(function (err, ret) {
+  if (err) {
+    console.log('查询失败')
+  } else {
+    console.log(ret)
+  }
+})
+
+//按条件查询
+User.find({
+  username: 'zs'
+}, function (err, ret) {
+  if (err) {
+    console.log('查询失败')
+  } else {
+    console.log(ret)
+  }
+})
+
+//查询到的数据，返回对象
+User.findOne({
+  username: 'zs'
+}, function (err, ret) {
+  if (err) {
+    console.log('查询失败')
+  } else {
+    console.log(ret)
+  }
+})
+```
+
+删除数据
+
+```js
+User.remove({
+  username: 'zs'
+}, function (err, ret) {
+  if (err) {
+    console.log('删除失败')
+  } else {
+    console.log('删除成功')
+  }
+})
+
+//根据条件删除一个
+Model.findOneAndRemove(conditions, [options], [callback]);
+
+//根据id删除一个
+Model.findByIdAndRemove(id, [options], [callback]);
+```
+
+更新数据
+
+```js
+//根据条件更新所有
+Mode.update(conditions, doc, [options], [callback]);
+
+//根据指定条件更新一个
+Model.findOneAndUpdate([conditions], [update], [options], [callback])
+
+//根据id更新一个
+User.findByIdAndUpdate('5a001b23d219eb00c8581184', {
+  password: '123'
+}, function (err, ret) {
+  if (err) {
+    console.log('更新失败')
+  } else {
+    console.log('更新成功')
+  }
+})
+```
+
+
+
+使用Node操作MySQL数据库
+
+```js
+var mysql = require('mysql');
+
+// 1. 创建连接
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'users' // 不小心把数据库名字和表名起成一样的
+});
+
+// 2. 连接数据库 打开冰箱门
+connection.connect();
+
+// 3. 执行数据操作 把大象放到冰箱
+connection.query('SELECT * FROM `users`', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results);
+});
+
+// connection.query('INSERT INTO users VALUES(NULL, "admin", "123456")', function (error, results, fields) {
+//   if (error) throw error;
+//   console.log('The solution is: ', results);
+// });
+
+// 4. 关闭连接 关闭冰箱门
+connection.end();
+```
+
+####Promise
+
+I promise you
+
+```js
+var fs = require('fs')
+
+var p1 = new Promise(function (resolve, reject) {
+  fs.readFile('./data/a.txt', 'utf8', function (err, data) {
+    if (err) {
+      reject(err)
+    } else {
+      resolve(data)
+    }
+  })
+})
+
+var p2 = new Promise(function (resolve, reject) {
+  fs.readFile('./data/b.txt', 'utf8', function (err, data) {
+    if (err) {
+      reject(err)
+    } else {
+      resolve(data)
+    }
+  })
+})
+
+var p3 = new Promise(function (resolve, reject) {
+  fs.readFile('./data/c.txt', 'utf8', function (err, data) {
+    if (err) {
+      reject(err)
+    } else {
+      resolve(data)
+    }
+  })
+})
+
+p1
+  .then(function (data) {
+    console.log(data)
+    return p2
+  }, function (err) {
+    console.log('读取文件失败了', err)
+  })
+  .then(function (data) {
+    console.log(data)
+    return p3
+  })
+  .then(function (data) {
+    console.log(data)
+    console.log('end')
+  })
+
+```
+
+封装 promise API
+```js
+var fs = require('fs')
+
+function pReadFile(filePath) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(filePath, 'utf8', function (err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+pReadFile('./data/a.txt')
+  .then(function (data) {
+    console.log(data)
+    return pReadFile('./data/b.txt')
+  })
+  .then(function (data) {
+    console.log(data)
+    return pReadFile('./data/c.txt')
+  })
+  .then(function (data) {
+    console.log(data)
+  })
+
+```
+
+封装 promise 版本的 ajax
+```js
+   pGet('http://127.0.0.1:3000/users/4')
+      .then(function (data) {
+        console.log(data)
+      })
+
+    function pGet(url, callback) {
+      return new Promise(function (resolve, reject) {
+        var oReq = new XMLHttpRequest()
+        // 当请求加载成功之后要调用指定的函数
+        oReq.onload = function () {
+          // 我现在需要得到这里的 oReq.responseText
+          callback && callback(JSON.parse(oReq.responseText))
+          resolve(JSON.parse(oReq.responseText))
+        }
+        oReq.onerror = function (err) {
+          reject(err)
+        }
+        oReq.open("get", url, true)
+        oReq.send()
+      })
+    }
+```
+
+### 9.其它
+
+#### 9.1 回调函数
+
+凡是需要得到一个函数内部异步操作的结果，必须通过：回调函数
+
+不成立的情况：
+
+```js
+function add(x,y){
+    console.log(1);
+    setTimeout(funcion(){
+        console.log(2);
+    	var ret = x + y;
+    	return ret;
+    },1000);
+	console.log(3);
+//到这里执行就结束了，不会等到前面的定时器，所以直接就返回了默认值 undefined
+}
+console.log(add(10,20)) // => undefined
+```
+
+回调函数
+
+```js
+function add(x,y,callback){
+    //callback：回调函数
+    console.log(1);
+    setTimeout(function(){
+		var ret = x + y;
+        callback(ret);
+    },1000);
+}
+add(10,20,function(ret){
+    console.log(ret);
+})
+```
+
+基于原生 XMLHTTPRequest 封装 get 方法
+
+```js
+function get(url, callback){
+    var oReq = new XMLHttpRequest();
+    oReq.onload = function(){
+        callback(oReq.responseText);
+    }
+    oReq.open('get', url, true);
+    oReq.send();
+}
+
+get('data.json', function(data){
+    console.log(data);
+})
+```
+
+
+
+
+
+####9.2 修改完代码自动重启服务
+
+我们这里可以使用一个第三方命名航工具:  `nodemon` 来帮我们解决频繁修改代码重启服务器可題。
+
+`nodemon`是一个基于Node.js开发的一个第三方命令行工具，我们使用的时候需要独立安装
+
+```shell
+npm install --global nodemon
+```
+
+安装完毕之后，使用：
+
+```shell
+node app.js
+
+# 使用 nodemon
+nodemon app.js
+```
+
+只要是通过 `nodemon app.js` 启动的服务，则它会监视你的文件変化，当文件发生变化的时候，自动帮你重启服务器。
+
+####9.3 文件操作路径与模块路径
+
+文件操作路径:
+```js
+// 在文件操作的相对路径中
+//    ./data/a.txt 相对于当前目录
+//    data/a.txt   相对于当前目录
+//    /data/a.txt  绝对路径，当前文件模块所处磁盘根目录
+//    c:/xx/xx...  绝对路径
+// fs.readFile('./data/a.txt', function (err, data) {
+//   if (err) {
+//     console.log(err)
+//     return console.log('读取失败')
+//   }
+//   console.log(data.toString())
+// })
+```
+
+模块操作路径:
+```js
+// 这里如果忽略了 . 则也是磁盘根目录
+require('/data/foo.js')
+
+// 相对路径
+require('./data/foo.js')
+
+// 模块加载的路径中的相对路径不能省略 ./
+```
+
+#### 9.4 中间件
+
+中间件：处理请求的，本质就是个函数
+
+中间件的本质就是一个请求处理方法，我们把用户从请求到响应的整个过程分发到多个中间件中去处理，这样做的目的是提高代码的灵活性，动态可扩展的。
+
+- 同一个请求所经过的中间件都是同一个请求对象和响应对象
+
+在 Express 中，对中间件有几种分类
+
+##### 应用程序级别中间件
+
+1. 关心请求路径和请求方法的中间件
+
+```js
+app.use('/a', function(req, res, next){
+    
+})
+```
+
+
+
+- 当请求进来，会从第一个中间件开始进行匹配
+   - 如果匹配，则进来
+      - 如果请求进入中间件之后，没有调用 next 则代码会停在当前中间件
+      - 如果调用了 next 则继续向后找到第一个匹配的中间件
+   - 如果不匹配，则继续判断匹配下一个中间件
+   
+2. 不关心请求路径和请求方法的中间件
+
+   也就是说任何请求都会进入这个中间件
+
+```js
+app.use(function(req, res, next){
+    
+})
+```
+
+
+
+中间件本身是一个方法，该方法接收三个参数：
+
+- Request 请求对象
+- Response 响应对象
+- next     下一个中间件
+
+当一个请求进入一个中间件之后，如果不调用 next 则会停留在当前中间件
+
+所以 next 是一个方法，用来调用下一个中间件的
+
+调用 next 方法也是要匹配的（不是调用紧挨着的那个）
+
+
+
+##### 路由级别中间件
+
+除了以上 `app.use` 中间件之外，还有一种最常用的，严格匹配请求方法和请求路径的中间件
+
+```js
+app.get
+
+app.post
+```
+
+
+
+##### 错误处理中间件
+
+
+
+##### 内置中间件
+
+
+
+##### 第三方中间件
+

@@ -1,0 +1,32 @@
+{{extend './_layouts/home.html'}}
+
+{{block 'title'}}{{'Blog Template for Bootstrap'}}{{/block}}
+
+{{block 'head'}}
+<link href="/public/css/blog.css" rel="stylesheet">
+{{/block}}
+
+{{block 'body'}}
+<div class="container">
+    <!-- <img src="https://pic1.zhimg.com/v2-bc73eb800cb9103abf71770936f6539c_540x450.jpeg" alt=""> -->
+    <div class="row">
+        <div class="blog-main" id="blog-main"></div>
+    </div><!-- /.row -->
+</div><!-- /.container -->
+{{/block}}
+
+{{block 'script'}}
+<script src="/public/js/index.js"></script>
+
+<script>
+    $('.blog-nav').click(function(e){
+        var target = e.target;
+        $.each($('.blog-nav-item'),function(index, item){
+            if(item.classList.contains('active')){
+                item.classList.remove('active');
+            }
+        })
+        target.classList.add('active');
+    })
+</script>
+{{/block}}
